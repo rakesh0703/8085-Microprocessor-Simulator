@@ -6,11 +6,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity {
     private String hexlocation;
@@ -20,9 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private int hv =0;
     private int location=0;
     private short st;
+    private String start_add;
     private short data[] = new short[65535];
     EditText editText1;
     EditText editText2;
+    private Hashtable<Integer, String> h = new Hashtable<Integer, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,11 +216,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void onclick_go(View view) {
         hexlocation="";
-        editText1.requestFocus();
-        focus=0;
+        hexvalue="";
+        editText1.setHint(hexlocation);
+        editText2.setHint(hexvalue);
+//        editText1.requestFocus();
     }
 
     public void onclick_exec(View view) {
+        location = Integer.parseInt(hexlocation,16);
+        int a=data[location=location+1];
+        int b=data[location=location+2];
+        start_add=Integer.toHexString(data[location+4])+Integer.toHexString(data[location+3]);
+        location = Integer.parseInt(start_add, 16);
+        data[location]=(short)(a+b);
+        Log.v("$$$$$$$$$$$$$ ",start_add );
     }
 
     public void showinst(View view) {
